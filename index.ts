@@ -14,7 +14,7 @@ async function main() {
     )
     await client.connect()
     
-    await client.query(`DELETE FROM test_count;`);
+    await client.query(`TRUNCATE TABLE test_count;`);
 
     // const res = await client.query('SELECT $1::text as message', ['Hello world!'])
     
@@ -28,6 +28,17 @@ async function main() {
     // );
 
     // create table
+    // await client.execute(`
+    // CREATE TABLE test_count (
+    //     id INT NOT NULL,
+    //     fni INT NULL,
+    //     fwi INT NULL,
+    //     fni_nn INT NOT NULL,
+    //     fwi_nn INT NOT NULL,
+    //     PRIMARY KEY (id)
+    // );
+    // `);
+
     // await client.execute(`
     //     CREATE TABLE test_count (
     //         id INT NOT NULL,
@@ -67,15 +78,24 @@ async function main() {
     
     let count = 0;
     
-    let results = {};
+    let results = {
+        "titles": [],
+        "COUNT(*)": [],
+        "COUNT(1)": [],
+        "COUNT(id)": [],
+        "COUNT(fni)": [],
+        "COUNT(fwi)": [],
+        "COUNT(fni_nn)": [],
+        "COUNT(fwi_nn)": [],
+}
     
     while (count <= 1e7) {
-        results[count] = {};
         for (let func in funcs) {
             var startTime = performance.now();
             let res = await client.query(funcs[func]);
-            results[count][func] = performance.now() - startTime;
+            results[func].push(performance.now() - startTime);
         }
+        results["titles"].push(count);
 
         let n = [];
 
