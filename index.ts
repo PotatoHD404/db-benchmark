@@ -5,13 +5,13 @@ const fs = require('fs');
 async function main() {
     const client = new Client(
         {
-            user: 'postgres',
+            user: 'root',
             host: 'localhost',
-            database: 'postgres',
-            password: "postgres",
-            port: 5432,
+            database: 'defaultdb',
+            port: 26257,
           }
     )
+    // postgresql://root@127.0.0.1:26257/defaultdb?sslmode=disable
     await client.connect()
     
     await client.query(`TRUNCATE TABLE test_count;`);
@@ -40,14 +40,14 @@ async function main() {
     // `);
 
     // await client.execute(`
-    //     CREATE TABLE test_count (
-    //         id INT NOT NULL,
-    //         fni INT NULL,
-    //         fwi INT NULL,
-    //         fni_nn INT NOT NULL,
-    //         fwi_nn INT NOT NULL,
-    //         PRIMARY KEY (id)
-    //     );
+        // CREATE TABLE test_count (
+        //     id INT NOT NULL,
+        //     fni INT NULL,
+        //     fwi INT NULL,
+        //     fni_nn INT NOT NULL,
+        //     fwi_nn INT NOT NULL,
+        //     PRIMARY KEY (id)
+        // );
     //     `);
     
     
