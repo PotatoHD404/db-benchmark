@@ -1,54 +1,33 @@
 const { Client } = require('pg');
-// import { getDatabase, ref, set } from "firebase/database";
 const fs = require('fs');
+
+// Before running the script you need to create table with indexes in your database
+
+    // CREATE TABLE test_count (
+    //     id INT NOT NULL,
+    //     fni INT NULL,
+    //     fwi INT NULL,
+    //     fni_nn INT NOT NULL,
+    //     fwi_nn INT NOT NULL,
+    //     PRIMARY KEY (id)
+    // );
+    // CREATE INDEX test_count_fwi ON test_count (fwi);
+    // CREATE INDEX test_count_fwi_nn ON test_count (fwi_nn);
 
 async function main() {
     const client = new Client(
         {
-            user: 'root',
+            user: 'postgres',
             host: 'localhost',
-            database: 'defaultdb',
-            port: 26257,
+            database: 'postgres',
+            port: 5432,
           }
     )
-    // postgresql://root@127.0.0.1:26257/defaultdb?sslmode=disable
     await client.connect()
     
     await client.query(`TRUNCATE TABLE test_count;`);
 
-    // const res = await client.query('SELECT $1::text as message', ['Hello world!'])
-    
-    // CREATE TABLE test_count (
-    //     id INT NOT NULL,
-    //     fni INT NULL,
-    //     fwi INT NULL,
-    //     fni_nn INT NOT NULL,
-    //     fwi_nn INT NOT NULL,
-    //     PRIMARY KEY (id)
-    // );
 
-    // create table
-    // await client.execute(`
-    // CREATE TABLE test_count (
-    //     id INT NOT NULL,
-    //     fni INT NULL,
-    //     fwi INT NULL,
-    //     fni_nn INT NOT NULL,
-    //     fwi_nn INT NOT NULL,
-    //     PRIMARY KEY (id)
-    // );
-    // `);
-
-    // await client.execute(`
-        // CREATE TABLE test_count (
-        //     id INT NOT NULL,
-        //     fni INT NULL,
-        //     fwi INT NULL,
-        //     fni_nn INT NOT NULL,
-        //     fwi_nn INT NOT NULL,
-        //     PRIMARY KEY (id)
-        // );
-    //     `);
     
     
     function getRandomInt(min, max) {
@@ -56,13 +35,6 @@ async function main() {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
       }
-    //   SELECT COUNT(*) FROM test_count;
-    //   SELECT COUNT(1) FROM test_count;
-    //   SELECT COUNT(id) FROM test_count;
-    //   SELECT COUNT(fni) FROM test_count;
-    //   SELECT COUNT(fwi) FROM test_count;
-    //   SELECT COUNT(fni_nn) FROM test_count;
-    //   SELECT COUNT(fwi_nn) FROM test_count;
     
     
     let funcs = {
@@ -129,23 +101,12 @@ async function main() {
         console.log(count)
         count += 1000;
 
-        fs.writeFile("results.json", JSON.stringify(results), function(err) {
+        fs.writeFile("./postgres/results3.json", JSON.stringify(results), function(err) {
             if(err) {
                 return console.log(err);
             }
         });
     }
-    
-    // console.log(results);
-
-    // write results to file as json
-
-    
-    // add 1000 rows
-    
-    
-    
-    // console.log(res.rows[0].message) // Hello world!
     
     
     
@@ -153,5 +114,3 @@ async function main() {
 }
 
 main()
-
-// export {}
